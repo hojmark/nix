@@ -30,6 +30,7 @@ in
   services.desktopManager.gnome.enable = true;
   programs.dconf.enable = true;
   programs.dconf.profiles.user.databases = [{
+    lockAll = true;
     settings = {
       "org/gnome/desktop/input-sources" = {
         sources = [ (lib.gvariant.mkTuple [ "xkb" "dk" ]) ];
@@ -44,6 +45,7 @@ in
   programs.gnome-terminal = {
     enable = true;
   };
+  programs.git.enable = true;
   programs.firefox.enable = true;
 
   # Users
