@@ -22,6 +22,7 @@ in
   services.xserver = {
     enable = true;
     xkb.layout = "dk";
+    excludePackages = [ pkgs.xterm ];
   };
   console.keyMap = "dk";
 
@@ -41,7 +42,7 @@ in
 
   # Programs
   services.gnome.core-apps.enable = false;
-  environment.gnome.excludePackages = [ pkgs.gnome-tour pkgs.xterm ];
+  environment.gnome.excludePackages = [ pkgs.gnome-tour ];
   programs.gnome-terminal = {
     enable = true;
   };
