@@ -17,6 +17,8 @@ in
   # Networking
   networking.hostName = hostname;
   networking.networkmanager.enable = true;
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [ "vscode" ];
 
   # Keyboard layout
   services.xserver = {
@@ -38,6 +40,26 @@ in
         sources = [ (lib.gvariant.mkTuple [ "xkb" "dk+nodeadkeys" ]) ];
         current = lib.gvariant.mkUint32 0;
       };
+      "org/gnome/shell" = {
+        enabled-extensions = [
+          "caffeine@patapon.info"
+          "display-brightness-ddcutil@themightydeity.github.com"
+          "system-monitor@gnome-shell-extensions.gcampax.github.com"
+        ];
+      };
+      "org/gnome/shell/extensions/display-brightness-ddcutil" = {
+        button-location = lib.gvariant.mkInt32 1;
+        ddcutil-binary-path = "${pkgs.ddcutil}/bin/ddcutil";
+        show-display-name = true;
+        show-value-label = true;
+      };
+      "org/gnome/shell/extensions/system-monitor" = {
+        show-cpu = true;
+        show-memory = true;
+        show-swap = false;
+        show-upload = false;
+        show-download = true;
+      };
     };
   }];
 
@@ -49,11 +71,49 @@ in
   };
   programs.git.enable = true;
   programs.firefox.enable = true;
+  programs.thunderbird.enable = true;
+  programs.vscode.enable = true;
+  programs.zsh.enable = true;
+  environment.systemPackages = with pkgs; [
+    dotnet-sdk_10
+    dive
+    ddcutil
+    git-lfs
+    podman-compose
+    vlc
+    logseq
+    bitwarden-desktop
+    dconf-editor
+    resources
+    eog
+    gradia
+    gnomeExtensions.caffeine
+    gnomeExtensions.brightness-control-using-ddcutil
+    gnomeExtensions.system-monitor
+  ];
+
+  # Services
+  services.syncthing = {
+    enable = true;
+    user = "hojmark";
+    group = "users";
+    dataDir = "/home/hojmark";
+    openDefaultPorts = true;
+  };
+  hardware.i2c.enable = true;
+
+  # Containers
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+    defaultNetwork.settings.dns_enabled = true;
+  };
 
   # Users
   users.users.hojmark = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [ "wheel" "networkmanager" "i2c" ];
+    shell = pkgs.zsh;
   };
 
   # Bootloader
