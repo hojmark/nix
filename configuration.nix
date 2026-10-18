@@ -28,6 +28,15 @@ in
   # GNOME
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
+  programs.dconf.enable = true;
+  programs.dconf.profiles.user.databases = [{
+    settings = {
+      "org/gnome/desktop/input-sources" = {
+        sources = [ (lib.gvariant.mkTuple [ "xkb" "dk" ]) ];
+        current = 0;
+      };
+    };
+  }];
 
   # Programs
   services.gnome.core-apps.enable = false;
