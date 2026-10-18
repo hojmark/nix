@@ -22,6 +22,7 @@ in
   services.xserver = {
     enable = true;
     xkb.layout = "dk";
+    xkb.variant = "nodeadkeys";
     excludePackages = [ pkgs.xterm ];
   };
   console.keyMap = "dk";
@@ -34,7 +35,7 @@ in
     lockAll = true;
     settings = {
       "org/gnome/desktop/input-sources" = {
-        sources = [ (lib.gvariant.mkTuple [ "xkb" "dk" ]) ];
+        sources = [ (lib.gvariant.mkTuple [ "xkb" "dk+nodeadkeys" ]) ];
         current = lib.gvariant.mkUint32 0;
       };
     };
