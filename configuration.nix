@@ -33,7 +33,7 @@ in
     settings = {
       "org/gnome/desktop/input-sources" = {
         sources = [ (lib.gvariant.mkTuple [ "xkb" "dk" ]) ];
-        current = 0;
+        current = lib.gvariant.mkUint32 0;
       };
     };
   }];
