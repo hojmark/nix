@@ -17,9 +17,7 @@ in
   # Networking
   networking.hostName = hostname;
   networking.networkmanager.enable = true;
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [ "vscode" ];
-
+  
   # Keyboard layout
   services.xserver = {
     enable = true;
@@ -64,6 +62,10 @@ in
   }];
 
   # Programs
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [ "vscode" ];
+  # TODO
+  nixpkgs.config.permittedInsecurePackages = [ "electron-39.8.10" ];
   services.gnome.core-apps.enable = false;
   environment.gnome.excludePackages = [ pkgs.gnome-tour ];
   programs.gnome-terminal = {
