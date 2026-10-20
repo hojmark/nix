@@ -81,6 +81,7 @@ read -rp 'Press enter to continue...'
 
 mkdir -p "$config_dir/hosts/$host"
 cp -a "$repo_dir/"*.nix "$config_dir/"
+install -m 0755 "$repo_dir/post-install.sh" "$config_dir/post-install.sh"
 cp "$config_dir/hardware-configuration.nix" "$config_dir/hosts/$host/"
 if [[ $bios == true ]]; then
   printf '{ lib, ... }: {\n  boot.loader.systemd-boot.enable = lib.mkForce false;\n  boot.loader.efi.canTouchEfiVariables = lib.mkForce false;\n  boot.loader.grub = {\n    enable = true;\n    device = "%s";\n  };\n}\n' "$(readlink -f -- "$disk")" \

@@ -16,13 +16,23 @@
    ls -l /dev/disk/by-id/
    ```
 
-4. Run bootstrap with the host (`abc` or `t14`) and disk path. It confirms before erasing the selected disk:
+4. Run bootstrap with the host (`abc` or `t14`) and disk path.
 
    ```sh
-   sudo /tmp/nix/nixos/bootstrap.sh abc /dev/disk/by-id/REPLACE_WITH_TARGET_DISK
+   sudo /tmp/nix/bootstrap.sh abc /dev/disk/by-id/REPLACE_WITH_TARGET_DISK
    ```
 
    Optionally, add `--bios`, e.g. `sudo /tmp/nix/nixos/bootstrap.sh abc /dev/vda --boot` for legacy BIOS support.
 
 5. Set the user account password when prompted.
 6. Unmount NixOS installer and reboot.
+
+## After first boot
+
+Run the post-install script as your normal user:
+
+```sh
+/etc/nixos/post-install.sh
+```
+
+It clones this repository to `~/git/nix` and links `configuration.nix` into `/etc/nixos`.
