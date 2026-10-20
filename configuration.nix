@@ -76,6 +76,10 @@ in
   programs.thunderbird.enable = true;
   programs.vscode.enable = true;
   programs.zsh.enable = true;
+  services.flatpak = {
+    enable = true;
+    packages = [ "com.logseq.Logseq" ];
+  };
   environment.systemPackages = with pkgs; [
     dotnet-sdk_10
     dive
@@ -83,7 +87,7 @@ in
     git-lfs
     podman-compose
     vlc
-    logseq
+    # logseq (installed via Flatpak)
     bitwarden-desktop
     dconf-editor
     resources
@@ -122,8 +126,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # File systems
-  # Keep these mounts aligned with disko.nix
+  # File systems (keep these mounts aligned with disko.nix)
   fileSystems."/" = {
     device = "/dev/disk/by-partlabel/NIXOS-ROOT";
     fsType = "btrfs";
